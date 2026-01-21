@@ -14,11 +14,9 @@ jobs:
       - name: Get latest code
         uses: actions/checkout@v4
       
-      - name: Sync files
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./
-          server-dir: ./flowerbeginner/controll/
+      - name: Install lftp
+        run: sudo apt-get install -y lftp
+
+      - name: Deploy with lftp
+        run: |
+          lftp -c "open -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ${{ secrets.FTP_SERVER }}; set ssl:verify-certificate no; cd flowerbeginner/controll/; mirror -R --verbose --parallel=2 --exclude .git --exclude .github . ./"

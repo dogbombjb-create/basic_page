@@ -466,7 +466,37 @@ a {
         flex-direction: column;
     }
 
-    .day-label {
-        margin-bottom: 10px;
+    /* Wave Divider */
+    .wave-divider {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        overflow: hidden;
+        line-height: 0;
     }
-}
+
+    .wave-divider svg {
+        position: relative;
+        display: block;
+        width: calc(100% + 1.3px);
+        height: 60px;
+    }
+
+    .wave-divider .shape-fill {
+        fill: #ffffff;
+    }
+
+    /* Adjust Section Desc spacing */
+    .section-desc {
+        font-size: 1.1rem;
+        color: var(--text-muted);
+        margin-bottom: 40px;
+        letter-spacing: 0.1em;
+        /* Widen spacing */
+        position: relative;
+        z-index: 5;
+        /* Ensure above decorations */
+        display: inline-block;
+        /* Helps with Z-index sometimes */
+    }

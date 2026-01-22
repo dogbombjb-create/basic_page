@@ -187,16 +187,110 @@ a {
 }
 
 /* Check */
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin-top: 30px;
+/* Center Text Block */
+.center-text-block {
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
 }
 
-.gallery-item {
-    background: #eee;
-    height: 150px;
+/* Curriculum Styles */
+.phase-block {
+    margin-bottom: 60px;
+}
+
+.phase-title {
+    font-family: var(--font-body);
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--gold);
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+    display: inline-block;
+}
+
+.day-list {
+    list-style: none;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.day-item {
+    display: flex;
+    background: #fff;
+    padding: 25px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    align-items: flex-start;
+    transition: transform 0.3s;
+}
+
+.day-item:hover {
+    transform: translateY(-3px);
+}
+
+.day-label {
+    min-width: 80px;
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    color: var(--text-muted);
+    margin-right: 20px;
+    line-height: 1;
+    padding-top: 5px;
+}
+
+.day-content strong {
+    display: block;
+    font-size: 1.1rem;
+    color: var(--text-color);
+    margin-bottom: 8px;
+    border-bottom: 1px dotted #eee;
+    padding-bottom: 5px;
+}
+
+.day-content p {
+    font-size: 0.95rem;
+    color: #666;
+    margin: 0;
+}
+
+.rest-day {
+    background: #fdfdfd;
+    border: 1px dashed #ddd;
+}
+
+.rest-day .day-label {
+    color: #bbb;
+}
+
+.special-day {
+    background: linear-gradient(to right bottom, #fff, #fff0f5);
+    border: 1px solid var(--accent-color);
+}
+
+.curriculum-note {
+    font-size: 0.9rem;
+    color: #888;
+    margin-top: 40px;
+}
+
+/* Support Section */
+.support-content {
+    max-width: 700px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.schedule-info {
+    background: #fff8e1;
+    /* Very light gold/yellow */
+    padding: 20px;
+    border-radius: 8px;
+    color: #5d4037;
 }
 
 @media (max-width: 768px) {
@@ -209,7 +303,11 @@ a {
         font-size: 3.5rem;
     }
 
-    .gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
+    .day-item {
+        flex-direction: column;
+    }
+
+    .day-label {
+        margin-bottom: 10px;
     }
 }

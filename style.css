@@ -356,11 +356,10 @@ a {
 
     /* Improve general text readability on mobile */
     p {
-        text-align: justify;
-        /* Optional: might make it look cleaner or worse depending on preference, sticking to left/center usually safer but let's see */
-        /* Actually, usually Japanese looks better with specific breaks or keeping it left aligned with word-break */
-        word-break: auto-phrase;
-        /* Modern browsers */
+        text-align: left;
+        /* Ensure text starts from the left on mobile for readability */
+        word-break: break-all;
+        /* Ensure long words don't overflow */
     }
 }
 

@@ -214,10 +214,64 @@ a {
 
 /* Check */
 /* Center Text Block */
+/* Concept Section Text Polish */
+.col-text {
+    position: relative;
+    z-index: 2;
+}
+
 .center-text-block {
-    max-width: 700px;
+    background: rgba(255, 255, 255, 0.9);
+    /* Semi-transparent white */
+    padding: 40px 50px;
+    border-radius: 20px;
+    /* Soft corners */
+    box-shadow:
+        0 10px 30px rgba(30, 188, 182, 0.1),
+        /* Teal shadow */
+        inset 0 0 0 1px rgba(197, 160, 89, 0.3);
+    /* Inner Gold Border */
+    text-align: left;
+    /* Keep left align for readability */
+    max-width: 600px;
     margin: 0 auto;
-    text-align: center;
+    position: relative;
+}
+
+/* Decorative Quotes or Icon */
+.center-text-block::before {
+    content: '“';
+    position: absolute;
+    top: -30px;
+    left: 20px;
+    font-family: 'Great Vibes', serif;
+    font-size: 6rem;
+    color: var(--gold);
+    opacity: 0.5;
+    line-height: 1;
+}
+
+.center-text-block p {
+    font-size: 1.25rem;
+    /* Larger text */
+    line-height: 2;
+    /* More breathing room */
+    color: #444;
+    margin-bottom: 25px;
+}
+
+.center-text-block p:last-child {
+    margin-bottom: 0;
+}
+
+/* Highlight key text */
+.center-text-block strong,
+.highlight {
+    color: var(--primary-color);
+    background: linear-gradient(120deg, transparent 0%, rgba(255, 241, 0, 0.3) 100%);
+    /* Subtle marker */
+    font-weight: 700;
+    padding: 0 4px;
 }
 
 /* Curriculum Styles */

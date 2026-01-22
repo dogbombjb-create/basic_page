@@ -1,16 +1,21 @@
 /* Base Reset & Variables */
 :root {
-    --bg-color: #fffafb;
-    /* Very light pink/cream */
-    --text-color: #5d4037;
-    /* Dark Brown */
-    --text-muted: #8d6e63;
-    --primary-color: #d81b60;
-    /* Pink */
-    --accent-color: #f06292;
+    --bg-color: #f6fcfc;
+    /* Pale Medical Blue/White */
+    --text-color: #333333;
+    /* Sharp Dark Grey */
+    --text-muted: #668ad8;
+    /* Clinical Blue-Grey */
+    --primary-color: #1ebcb6;
+    /* Medical Teal */
+    --accent-color: #ffd700;
+    /* Bright Gold/Yellow */
     --gold: #c5a059;
-    --font-heading: 'Great Vibes', cursive;
-    --font-body: 'Lato', 'Noto Serif JP', sans-serif;
+    /* Classic Gold (keep for borders) */
+    --font-heading: 'Noto Sans JP', sans-serif;
+    /* Clean Sans */
+    --font-body: 'Noto Sans JP', sans-serif;
+    /* Clean Sans */
     --container-width: 1000px;
 }
 

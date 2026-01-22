@@ -82,29 +82,45 @@ a {
 }
 
 /* Hero */
+/* Hero */
 .hero {
+    height: 80vh;
     position: relative;
-    width: 100%;
-    min-height: auto;
-    overflow: hidden;
-    padding: 0;
-    background: #fff;
-}
-
-.hero-image-container {
-    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    background-color: #eaf8f8;
-    /* Soft background to match image edges if needed */
+    color: #fff;
+    padding: 0;
 }
 
-.hero-main-visual {
+.hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    /* Keep max-width reasonable for desktop but allow full width/responsive scaling */
-    max-width: 1200px;
-    height: auto;
-    display: block;
-    margin: 0 auto;
+    height: 100%;
+    background-image: url('assets/gemini-hero.png');
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
+
+.hero-bg::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    /* Overlay for text readability */
+}
+
+/* Remove Image Container Styles */
+.hero-image-container,
+.hero-main-visual {
+    display: none;
 }
 
 /* Obsolete styles removed: .hero-bg */

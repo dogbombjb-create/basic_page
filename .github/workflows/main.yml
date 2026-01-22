@@ -19,4 +19,4 @@ jobs:
 
       - name: Deploy with lftp
         run: |
-          lftp -c "open -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ${{ secrets.FTP_SERVER }}; set ssl:verify-certificate no; cd flowerbeginner/controll/; mirror -R --verbose --parallel=2 --exclude .git --exclude .github --exclude .gitignore . ./"
+          lftp -d -c "open -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ${{ secrets.FTP_SERVER }}; set ssl:verify-certificate no; debug 3; mkdir -p flowerbeginner/controll/; cd flowerbeginner/controll/; mirror -R --verbose --parallel=2 --exclude .git --exclude .github --exclude .gitignore . ./"

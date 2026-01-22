@@ -191,56 +191,421 @@
             </div>
         </section>
 
-        <!-- Memory Game Section -->
-        <section id="memory-game" class="section" style="background: #fbfbff;">
-            <div class="container center">
-                <h2 class="section-title">Ice Break Game</h2>
-                const questionArea = document.getElementById('question-area');
-                const questionText = document.getElementById('question-text');
-                const question = gameState.questions[gameState.currentQuestionIndex % gameState.questions.length];
-                questionText.textContent = question;
-                questionArea.classList.remove('hidden');
-                questionText.classList.remove('question-slide');
-                void questionText.offsetWidth;
-                questionText.classList.add('question-slide');
-                gameState.currentQuestionIndex++;
-                }
-
-                function endGame() {
-                createConfetti();
-                setTimeout(() => {
-                document.getElementById('game-screen').classList.add('hidden');
-                document.getElementById('complete-screen').classList.remove('hidden');
-                document.getElementById('final-moves').textContent = gameState.moves;
-                const lastQuestion = gameState.questions[(gameState.currentQuestionIndex - 1) %
-                gameState.questions.length];
-                document.getElementById('final-question').textContent = lastQuestion;
-                }, 1500);
-                }
-
-                function createConfetti() {
-                const colors = ['#1ebcb6', '#00bcd4', '#c5a059', '#ffd700', '#b2ebf2'];
-                for (let i = 0; i < 50; i++) { const confetti=document.createElement('div');
-                    confetti.className='confetti' ; confetti.style.left=Math.random() * 100 + '%' ;
-                    confetti.style.backgroundColor=colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.width=Math.random() * 10 + 5 + 'px' ; confetti.style.height=confetti.style.width;
-                    confetti.style.borderRadius=Math.random()> 0.5 ? '50%' : '0';
-                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
-                    document.body.appendChild(confetti);
-                    setTimeout(() => confetti.remove(), 3000);
+        <!-- Business Calculator Section -->
+        <section id="business-calculator" class="section">
+            <div class="container">
+                <script src="https://cdn.tailwindcss.com"></script>
+                <script>
+                    tailwind.config = {
+                        corePlugins: {
+                            preflight: false,
+                        }
                     }
+                </script>
+                <style>
+                    /* Scoped styles for calculator */
+                    #business-calculator .heading-font {
+                        font-family: 'Playfair Display', serif;
                     }
 
-                    function resetToStart() {
-                    document.getElementById('game-screen').classList.add('hidden');
-                    document.getElementById('complete-screen').classList.add('hidden');
-                    document.getElementById('start-screen').classList.remove('hidden');
+                    #business-calculator .gradient-elegant {
+                        background: linear-gradient(135deg, #d4a574 0%, #c9968f 50%, #b08b8b 100%);
                     }
 
-                    document.getElementById('start-btn').addEventListener('click', initGame);
-                    document.getElementById('restart-btn').addEventListener('click', resetToStart);
-                    document.getElementById('play-again-btn').addEventListener('click', resetToStart);
-                    </script>
+                    #business-calculator .glass-panel {
+                        background: rgba(255, 255, 255, 0.98);
+                        backdrop-filter: blur(20px);
+                        border: 1px solid rgba(212, 165, 116, 0.15);
+                    }
+
+                    #business-calculator .input-field {
+                        border: 1.5px solid #f5e6d3;
+                        transition: all 0.3s ease;
+                    }
+
+                    #business-calculator .input-field:focus {
+                        outline: none;
+                        border-color: #d4a574;
+                        box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.08);
+                    }
+
+                    #business-calculator .slider-modern {
+                        -webkit-appearance: none;
+                        appearance: none;
+                        height: 5px;
+                        border-radius: 999px;
+                        background: linear-gradient(90deg, #f5e6d3 0%, #ead5c4 100%);
+                        outline: none;
+                        width: 100%;
+                    }
+
+                    #business-calculator .slider-modern::-webkit-slider-thumb {
+                        -webkit-appearance: none;
+                        appearance: none;
+                        width: 18px;
+                        height: 18px;
+                        border-radius: 50%;
+                        background: linear-gradient(135deg, #d4a574 0%, #c9968f 100%);
+                        cursor: pointer;
+                        box-shadow: 0 2px 8px rgba(212, 165, 116, 0.3);
+                        transition: transform 0.2s ease;
+                    }
+
+                    #business-calculator .slider-modern::-webkit-slider-thumb:hover {
+                        transform: scale(1.15);
+                    }
+
+                    #business-calculator .btn-add {
+                        background: linear-gradient(135deg, #d4a574 0%, #c9968f 100%);
+                        transition: all 0.3s ease;
+                    }
+
+                    #business-calculator .btn-add:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 8px 20px rgba(212, 165, 116, 0.25);
+                    }
+
+                    #business-calculator .btn-remove {
+                        transition: all 0.3s ease;
+                    }
+
+                    #business-calculator .btn-remove:hover {
+                        background: #fef2f2;
+                        color: #dc2626;
+                    }
+
+                    #business-calculator .result-card {
+                        transition: all 0.3s ease;
+                    }
+
+                    #business-calculator .result-card:hover {
+                        transform: translateY(-3px);
+                        box-shadow: 0 12px 30px rgba(212, 165, 116, 0.12);
+                    }
+
+                    #business-calculator .number-highlight {
+                        background: linear-gradient(135deg, #d4a574 0%, #c9968f 100%);
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        background-clip: text;
+                    }
+
+                    @keyframes slideIn {
+                        from {
+                            opacity: 0;
+                            transform: translateY(20px);
+                        }
+
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+
+                    .animate-slide-in {
+                        animation: slideIn 0.4s ease-out;
+                    }
+                </style>
+
+                <div class="w-full px-4 py-8 md:py-12"
+                    style="background: linear-gradient(135deg, #faf8f5 0%, #f5ede4 50%, #f9f3ee 100%); border-radius: 20px;">
+                    <div class="max-w-6xl mx-auto">
+                        <!-- Header -->
+                        <header class="text-center mb-10">
+                            <div
+                                class="inline-flex items-center justify-center w-16 h-16 rounded-2xl gradient-elegant mb-4 shadow-lg">
+                                <svg class="w-8 h-8 text-white" viewbox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.5">
+                                    <path
+                                        d="M12 2C12 2 9 5 9 8C9 10.2091 10.7909 12 13 12C13 12 16 9 16 6C16 3.79086 14.2091 2 12 2Z" />
+                                    <path
+                                        d="M12 22C12 22 15 19 15 16C15 13.7909 13.2091 12 11 12C11 12 8 15 8 18C8 20.2091 9.79086 22 12 22Z" />
+                                    <path
+                                        d="M2 12C2 12 5 9 8 9C10.2091 9 12 10.7909 12 13C12 13 9 16 6 16C3.79086 16 2 14.2091 2 12Z" />
+                                    <path
+                                        d="M22 12C22 12 19 15 16 15C13.7909 15 12 13.2091 12 11C12 11 15 8 18 8C20.2091 8 22 9.79086 22 12Z" />
+                                    <circle cx="12" cy="12" r="2" fill="currentColor" />
+                                </svg>
+                            </div>
+                            <h1 id="business-name" class="text-4xl md:text-5xl font-bold text-gray-800 mb-3"
+                                style="font-family: 'Noto Sans JP', sans-serif;">講座ビジネス逆算計算</h1>
+                            <p id="tagline" class="text-gray-500 text-base md:text-lg">目標達成への逆算計算</p>
+                        </header>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            <!-- Input Section -->
+                            <div class="lg:col-span-2 space-y-6">
+                                <section class="glass-panel rounded-3xl p-6 md:p-8 shadow-lg">
+                                    <div class="flex items-center gap-3 mb-6">
+                                        <div
+                                            class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-50 to-orange-50 flex items-center justify-center">
+                                            <svg class="w-6 h-6 text-amber-600" viewbox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2">
+                                                <circle cx="12" cy="12" r="10" />
+                                                <path d="M12 6v6l4 2" />
+                                            </svg>
+                                        </div>
+                                        <h2 class="text-xl font-semibold text-gray-800">年間売上目標</h2>
+                                    </div>
+                                    <div><label class="block text-sm font-medium text-gray-600 mb-3">目標金額（円）</label>
+                                        <input type="number" id="annual-target"
+                                            class="w-full px-4 py-3 rounded-xl input-field text-lg font-semibold text-gray-800"
+                                            placeholder="10000000" oninput="calculate()">
+                                    </div>
+                                </section>
+                                <section class="glass-panel rounded-3xl p-6 md:p-8 shadow-lg">
+                                    <div class="flex items-center justify-between mb-6">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="w-12 h-12 rounded-xl bg-gradient-to-br from-rose-50 to-pink-50 flex items-center justify-center">
+                                                <svg class="w-6 h-6 text-rose-500" viewbox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="2">
+                                                    <path
+                                                        d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+                                                    <line x1="7" y1="7" x2="7.01" y2="7" />
+                                                </svg>
+                                            </div>
+                                            <h2 class="text-xl font-semibold text-gray-800">レッスン設定</h2>
+                                        </div><button onclick="addLesson()" id="btn-add-lesson"
+                                            class="px-4 py-2 rounded-xl btn-add text-white font-medium text-sm shadow-md">
+                                            + 追加 </button>
+                                    </div>
+                                    <div id="lessons-container" class="space-y-4"></div>
+                                </section>
+                                <section class="glass-panel rounded-3xl p-6 md:p-8 shadow-lg">
+                                    <div class="flex items-center gap-3 mb-6">
+                                        <div
+                                            class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-50 to-violet-50 flex items-center justify-center">
+                                            <svg class="w-6 h-6 text-purple-500" viewbox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2">
+                                                <path d="M3 3v18h18" />
+                                                <path d="M18 17V9" />
+                                                <path d="M13 17V5" />
+                                                <path d="M8 17v-3" />
+                                            </svg>
+                                        </div>
+                                        <h2 class="text-xl font-semibold text-gray-800">成約率設定</h2>
+                                    </div>
+                                    <div class="space-y-6">
+                                        <div><label class="block text-sm font-medium text-gray-600 mb-3"> LINE登録→個別相談率:
+                                                <span id="display-consultation-rate"
+                                                    class="text-rose-500 font-semibold">10</span>% </label> <input
+                                                type="range" id="slider-consultation-rate" min="10" max="100" value="10"
+                                                step="10" class="w-full slider-modern"
+                                                oninput="updateConsultationRate()">
+                                            <div class="flex justify-between text-xs text-gray-400 mt-2">
+                                                <span>10%</span> <span>100%</span>
+                                            </div>
+                                        </div>
+                                        <div><label class="block text-sm font-medium text-gray-600 mb-3"> 個別相談→成約率:
+                                                <span id="display-closing-rate"
+                                                    class="text-rose-500 font-semibold">30</span>% </label> <input
+                                                type="range" id="slider-closing-rate" min="10" max="100" value="30"
+                                                step="10" class="w-full slider-modern" oninput="updateClosingRate()">
+                                            <div class="flex justify-between text-xs text-gray-400 mt-2">
+                                                <span>10%</span> <span>100%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <!-- Result Section -->
+                            <div class="lg:col-span-1 space-y-6">
+                                <section class="glass-panel rounded-3xl p-6 shadow-lg result-card sticky top-6">
+                                    <h3 class="text-lg font-semibold text-gray-800 mb-6 flex items-center gap-2">
+                                        <svg class="w-5 h-5 text-rose-400" viewbox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                            <circle cx="12" cy="10" r="3" />
+                                        </svg> 月間必要数
+                                    </h3>
+                                    <div class="space-y-6">
+                                        <div class="p-4 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50">
+                                            <p class="text-sm text-gray-500 mb-2">LINE登録者数</p>
+                                            <p id="result-line" class="text-3xl font-bold number-highlight">-</p>
+                                            <p class="text-xs text-gray-400 mt-1">人/月</p>
+                                        </div>
+                                        <div class="p-4 rounded-2xl bg-gradient-to-br from-rose-50 to-pink-50">
+                                            <p class="text-sm text-gray-500 mb-2">個別相談数</p>
+                                            <p id="result-consultation" class="text-3xl font-bold number-highlight">-
+                                            </p>
+                                            <p class="text-xs text-gray-400 mt-1">件/月</p>
+                                        </div>
+                                        <div class="p-4 rounded-2xl bg-gradient-to-br from-purple-50 to-violet-50">
+                                            <p class="text-sm text-gray-500 mb-2">成約数</p>
+                                            <p id="result-closing" class="text-3xl font-bold number-highlight">-</p>
+                                            <p class="text-xs text-gray-400 mt-1">件/月</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-6 pt-6 border-t border-gray-200">
+                                        <div class="flex justify-between items-center mb-2"><span
+                                                class="text-sm text-gray-500">月間売上目標</span> <span
+                                                id="result-monthly-target"
+                                                class="text-lg font-bold text-gray-800">-</span>
+                                        </div>
+                                        <div class="flex justify-between items-center"><span
+                                                class="text-sm text-gray-500">年間売上目標</span> <span
+                                                id="result-annual-target"
+                                                class="text-lg font-bold text-gray-800">-</span>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+
+                        <footer class="mt-10 text-center text-sm text-gray-400">
+                            <p>💡 数値を入力すると自動で計算されます</p>
+                        </footer>
+                    </div>
+                </div>
+
+                <script>
+                    let lessons = [];
+                    let lessonIdCounter = 0;
+                    const state = { annualTarget: 0, closingRate: 30, consultationRate: 10 };
+
+                    function addLesson() {
+                        if (lessons.length >= 5) {
+                            const messageDiv = document.createElement('div');
+                            messageDiv.className = 'fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-xl shadow-lg z-50';
+                            messageDiv.textContent = '最大5つまで追加できます';
+                            document.body.appendChild(messageDiv);
+                            setTimeout(() => messageDiv.remove(), 2000);
+                            return;
+                        }
+                        const id = lessonIdCounter++;
+                        lessons.push({ id, price: 0, frequency: 0, type: 'consultation', directCount: 0 });
+                        const container = document.getElementById('lessons-container');
+                        const lessonDiv = document.createElement('div');
+                        lessonDiv.id = `lesson-${id}`;
+                        lessonDiv.className = 'p-4 rounded-2xl bg-gradient-to-br from-rose-50 to-pink-50 animate-slide-in';
+                        lessonDiv.innerHTML = `
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="font-semibold text-gray-700">レッスン ${lessons.length}</span>
+                                <button onclick="removeLesson(${id})" class="w-8 h-8 rounded-lg bg-white hover:bg-red-50 flex items-center justify-center btn-remove"><svg class="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div><label class="block text-xs text-gray-500 mb-2">単価（円）</label><input type="number" id="price-${id}" class="w-full px-3 py-2 rounded-lg input-field text-sm" placeholder="300000" oninput="updateLesson(${id})"></div>
+                                    <div><label class="block text-xs text-gray-500 mb-2">年間開催回数</label><input type="number" id="frequency-${id}" class="w-full px-3 py-2 rounded-lg input-field text-sm" placeholder="12" oninput="updateLesson(${id})"></div>
+                                </div>
+                                <div><label class="block text-xs text-gray-500 mb-2">募集方法</label><select id="type-${id}" class="w-full px-3 py-2 rounded-lg input-field text-sm" onchange="updateLesson(${id})"><option value="consultation">個別相談経由</option><option value="direct">インスタから直接募集</option></select></div>
+                                <div id="direct-section-${id}" style="display: none;"><label class="block text-xs text-gray-500 mb-2">年間申込人数（名）</label><input type="number" id="direct-count-${id}" class="w-full px-3 py-2 rounded-lg input-field text-sm" placeholder="10" oninput="updateLesson(${id})"></div>
+                            </div>`;
+                        container.appendChild(lessonDiv);
+                        updateAddButtonState();
+                    }
+
+                    function removeLesson(id) {
+                        lessons = lessons.filter(lesson => lesson.id !== id);
+                        const lessonDiv = document.getElementById(`lesson-${id}`);
+                        if (lessonDiv) lessonDiv.remove();
+                        updateAddButtonState();
+                        renumberLessons();
+                        calculate();
+                    }
+
+                    function renumberLessons() {
+                        lessons.forEach((lesson, index) => {
+                            const lessonDiv = document.getElementById(`lesson-${lesson.id}`);
+                            if (lessonDiv) {
+                                const label = lessonDiv.querySelector('span');
+                                if (label) label.textContent = `レッスン ${index + 1}`;
+                            }
+                        });
+                    }
+
+                    function updateAddButtonState() {
+                        const btn = document.getElementById('btn-add-lesson');
+                        if (lessons.length >= 5) {
+                            btn.disabled = true;
+                            btn.classList.add('opacity-50', 'cursor-not-allowed');
+                        } else {
+                            btn.disabled = false;
+                            btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                        }
+                    }
+
+                    function updateLesson(id) {
+                        const lesson = lessons.find(l => l.id === id);
+                        if (lesson) {
+                            const priceInput = document.getElementById(`price-${id}`);
+                            const frequencyInput = document.getElementById(`frequency-${id}`);
+                            const typeSelect = document.getElementById(`type-${id}`);
+                            const directCountInput = document.getElementById(`direct-count-${id}`);
+                            const directSection = document.getElementById(`direct-section-${id}`);
+
+                            lesson.price = parseFloat(priceInput.value) || 0;
+                            lesson.frequency = parseInt(frequencyInput.value) || 0;
+                            lesson.type = typeSelect.value;
+                            lesson.directCount = parseInt(directCountInput.value) || 0;
+
+                            if (lesson.type === 'direct') directSection.style.display = 'block';
+                            else directSection.style.display = 'none';
+
+                            calculate();
+                        }
+                    }
+
+                    function updateClosingRate() {
+                        state.closingRate = parseInt(document.getElementById('slider-closing-rate').value);
+                        document.getElementById('display-closing-rate').textContent = state.closingRate;
+                        calculate();
+                    }
+
+                    function updateConsultationRate() {
+                        state.consultationRate = parseInt(document.getElementById('slider-consultation-rate').value);
+                        document.getElementById('display-consultation-rate').textContent = state.consultationRate;
+                        calculate();
+                    }
+
+                    function calculate() {
+                        const annualTargetInput = document.getElementById('annual-target');
+                        state.annualTarget = parseFloat(annualTargetInput.value) || 0;
+                        if (state.annualTarget === 0) { clearResults(); return; }
+
+                        const directRevenue = lessons.filter(l => l.type === 'direct').reduce((sum, l) => sum + (l.price * l.directCount), 0);
+                        const remainingTarget = state.annualTarget - directRevenue;
+
+                        if (remainingTarget <= 0) {
+                            document.getElementById('result-line').textContent = '0';
+                            document.getElementById('result-consultation').textContent = '0';
+                            document.getElementById('result-closing').textContent = '0';
+                            document.getElementById('result-monthly-target').textContent = formatCurrency(state.annualTarget / 12);
+                            document.getElementById('result-annual-target').textContent = formatCurrency(state.annualTarget);
+                            return;
+                        }
+
+                        const consultationLessons = lessons.filter(l => l.type === 'consultation');
+                        if (consultationLessons.length === 0) { clearResults(); return; }
+
+                        const averageLessonPrice = consultationLessons.reduce((sum, l) => sum + l.price, 0) / consultationLessons.length;
+                        if (averageLessonPrice === 0) { clearResults(); return; }
+
+                        const monthlyTargetRevenue = remainingTarget / 12;
+                        const monthlyConsultationRevenue = monthlyTargetRevenue / (state.closingRate / 100);
+                        const monthlyLineRevenue = monthlyConsultationRevenue / (state.consultationRate / 100);
+
+                        document.getElementById('result-line').textContent = formatNumber(Math.ceil(monthlyLineRevenue / averageLessonPrice));
+                        document.getElementById('result-consultation').textContent = formatNumber(Math.ceil(monthlyConsultationRevenue / averageLessonPrice));
+                        document.getElementById('result-closing').textContent = formatNumber(Math.ceil(monthlyTargetRevenue / averageLessonPrice));
+                        document.getElementById('result-monthly-target').textContent = formatCurrency(state.annualTarget / 12);
+                        document.getElementById('result-annual-target').textContent = formatCurrency(state.annualTarget);
+                    }
+
+                    function clearResults() {
+                        document.getElementById('result-line').textContent = '-';
+                        document.getElementById('result-consultation').textContent = '-';
+                        document.getElementById('result-closing').textContent = '-';
+                        document.getElementById('result-monthly-target').textContent = '-';
+                        document.getElementById('result-annual-target').textContent = '-';
+                    }
+
+                    function formatNumber(num) { return num.toLocaleString('ja-JP'); }
+                    function formatCurrency(amount) { return '¥' + Math.round(amount).toLocaleString('ja-JP'); }
+
+                    addLesson();
+                </script>
             </div>
         </section>
 

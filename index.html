@@ -191,6 +191,36 @@
             </div>
         </section>
 
+        <!-- Transition to Calculator -->
+        <div class="calculator-transition center" style="padding: 40px 20px; text-align: center;">
+            <p style="font-size: 1.2rem; margin-bottom: 20px; font-weight: 500; color: var(--text-color);">
+                まずは、売り上げから逆算してみましょう
+            </p>
+            <div class="arrow-down" style="font-size: 2rem; color: var(--accent-color); animation: bounce 2s infinite;">
+                ↓
+            </div>
+            <style>
+                @keyframes bounce {
+
+                    0%,
+                    20%,
+                    50%,
+                    80%,
+                    100% {
+                        transform: translateY(0);
+                    }
+
+                    40% {
+                        transform: translateY(-10px);
+                    }
+
+                    60% {
+                        transform: translateY(-5px);
+                    }
+                }
+            </style>
+        </div>
+
         <!-- Business Calculator Section -->
         <section id="business-calculator" class="section">
             <div class="container">

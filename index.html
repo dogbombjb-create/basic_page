@@ -472,10 +472,10 @@
                             cardEl.className = `card-container aspect-square cursor-pointer ${card.isFlipped || card.isMatched ? 'card-flipped' : ''} ${card.isMatched ? 'card-matched' : ''}`;
                             cardEl.innerHTML = `
                                 <div class="card-inner w-full h-full relative">
-                                    <div class="card-front absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg">
+                                    <div class="card-front absolute inset-0 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg">
                                         <span class="text-4xl text-white/30">?</span>
                                     </div>
-                                    <div class="card-back absolute inset-0 bg-white rounded-xl flex items-center justify-center shadow-lg border-2 ${card.isMatched ? 'border-green-400 bg-green-50' : 'border-purple-200'}">
+                                    <div class="card-back absolute inset-0 bg-white rounded-xl flex items-center justify-center shadow-lg border-2 ${card.isMatched ? 'border-amber-400 bg-amber-50' : 'border-teal-100'}">
                                         <span class="text-4xl md:text-5xl">${card.emoji}</span>
                                     </div>
                                 </div>
@@ -556,7 +556,7 @@
                     }
 
                     function createConfetti() {
-                        const colors = ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe'];
+                        const colors = ['#1ebcb6', '#00bcd4', '#c5a059', '#ffd700', '#b2ebf2'];
                         for (let i = 0; i < 50; i++) {
                             const confetti = document.createElement('div');
                             confetti.className = 'confetti';

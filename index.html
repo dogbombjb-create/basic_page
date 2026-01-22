@@ -184,6 +184,399 @@
             </div>
         </section>
 
+        <!-- Memory Game Section -->
+        <section id="memory-game" class="section" style="background: #fbfbff;">
+            <div class="container center">
+                <h2 class="section-title">Ice Break Game</h2>
+                <p class="section-desc">チームの仲を深めるミニゲーム</p>
+            </div>
+
+            <!-- Game Wrapper (Tailwind Scope) -->
+            <div id="game-wrapper" style="max-width: 1000px; margin: 40px auto; position: relative;">
+                <!-- Tailwind Config for No Preflight -->
+                <script src="https://cdn.tailwindcss.com"></script>
+                <script>
+                    tailwind.config = {
+                        corePlugins: {
+                            preflight: false,
+                        }
+                    }
+                </script>
+                <style>
+                    /* Game Specific Styles */
+                    .card-container {
+                        perspective: 1000px;
+                    }
+
+                    .card-inner {
+                        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                        transform-style: preserve-3d;
+                    }
+
+                    .card-flipped .card-inner {
+                        transform: rotateY(180deg);
+                    }
+
+                    .card-front,
+                    .card-back {
+                        backface-visibility: hidden;
+                        -webkit-backface-visibility: hidden;
+                    }
+
+                    .card-back {
+                        transform: rotateY(180deg);
+                    }
+
+                    .card-matched {
+                        animation: matchPulse 0.6s ease-out;
+                    }
+
+                    @keyframes matchPulse {
+
+                        0%,
+                        100% {
+                            transform: scale(1);
+                        }
+
+                        50% {
+                            transform: scale(1.08);
+                        }
+                    }
+
+                    .confetti {
+                        position: fixed;
+                        pointer-events: none;
+                        animation: confettiFall 3s ease-out forwards;
+                        z-index: 9999;
+                    }
+
+                    @keyframes confettiFall {
+                        0% {
+                            transform: translateY(-100%) rotate(0deg);
+                            opacity: 1;
+                        }
+
+                        100% {
+                            transform: translateY(100vh) rotate(720deg);
+                            opacity: 0;
+                        }
+                    }
+
+                    .question-slide {
+                        animation: slideIn 0.5s ease-out;
+                    }
+
+                    @keyframes slideIn {
+                        from {
+                            transform: translateY(20px);
+                            opacity: 0;
+                        }
+
+                        to {
+                            transform: translateY(0);
+                            opacity: 1;
+                        }
+                    }
+
+                    .gradient-bg {
+                        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+                    }
+
+                    .glass-card {
+                        background: rgba(255, 255, 255, 0.95);
+                        backdrop-filter: blur(10px);
+                    }
+                </style>
+
+                <!-- Game App Container -->
+                <div id="app" class="h-full gradient-bg overflow-auto rounded-3xl p-4" style="min-height: 600px;">
+                    <!-- Start Screen -->
+                    <div id="start-screen" class="min-h-full flex items-center justify-center p-4">
+                        <div class="glass-card rounded-3xl shadow-2xl p-8 max-w-md w-full text-center">
+                            <div class="text-6xl mb-4">🎮</div>
+                            <h1 id="main-title" class="text-3xl font-extrabold text-purple-700 mb-2">チームコネクト</h1>
+                            <p id="team-display" class="text-lg text-purple-500 mb-6">メモリーマッチングゲーム</p>
+                            <div class="space-y-4 mb-8">
+                                <div class="bg-purple-50 rounded-xl p-4">
+                                    <label class="block text-sm font-semibold text-purple-700 mb-2">難易度</label>
+                                    <select id="difficulty"
+                                        class="w-full p-3 rounded-lg border-2 border-purple-200 focus:border-purple-500 focus:outline-none">
+                                        <option value="easy">😊 かんたん (6枚)</option>
+                                        <option value="normal" selected>🎯 ふつう (12枚)</option>
+                                        <option value="hard">🔥 むずかしい (16枚)</option>
+                                    </select>
+                                </div>
+                                <div class="bg-purple-50 rounded-xl p-4">
+                                    <label class="block text-sm font-semibold text-purple-700 mb-2">絵文字カテゴリー</label>
+                                    <select id="emoji-category"
+                                        class="w-full p-3 rounded-lg border-2 border-purple-200 focus:border-purple-500 focus:outline-none">
+                                        <option value="office">💼 オフィス</option>
+                                        <option value="food">🍕 フード</option>
+                                        <option value="nature">🌸 自然</option>
+                                        <option value="sports">⚽ スポーツ</option>
+                                        <option value="animals">🐱 動物</option>
+                                    </select>
+                                </div>
+                                <div class="bg-purple-50 rounded-xl p-4">
+                                    <label class="block text-sm font-semibold text-purple-700 mb-2">質問テーマ</label>
+                                    <select id="question-theme"
+                                        class="w-full p-3 rounded-lg border-2 border-purple-200 focus:border-purple-500 focus:outline-none">
+                                        <option value="professional">📈 プロフェッショナル成長</option>
+                                        <option value="personal">🎨 個人的な興味</option>
+                                        <option value="team">🤝 チームダイナミクス</option>
+                                        <option value="mixed" selected>🎲 ミックス</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button id="start-btn"
+                                class="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold py-4 px-8 rounded-xl text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">🚀
+                                ゲームスタート！</button>
+                        </div>
+                    </div>
+
+                    <!-- Game Screen -->
+                    <div id="game-screen" class="min-h-full p-4 hidden">
+                        <div class="max-w-2xl mx-auto">
+                            <div class="glass-card rounded-2xl p-4 mb-4 flex items-center justify-between">
+                                <div class="flex items-center gap-4">
+                                    <div class="text-center">
+                                        <div class="text-2xl font-bold text-purple-700" id="moves-count">0</div>
+                                        <div class="text-xs text-purple-500">手数</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-2xl font-bold text-pink-600" id="matches-count">0</div>
+                                        <div class="text-xs text-pink-500">マッチ</div>
+                                    </div>
+                                </div>
+                                <button id="restart-btn"
+                                    class="bg-purple-100 text-purple-700 font-semibold py-2 px-4 rounded-lg hover:bg-purple-200 transition-colors">🔄
+                                    リスタート</button>
+                            </div>
+                            <!-- Card Grid -->
+                            <div id="card-grid" class="grid gap-3 mb-4"></div>
+                            <!-- Question Area -->
+                            <div id="question-area" class="glass-card rounded-2xl p-6 text-center hidden">
+                                <div class="text-4xl mb-3">💬</div>
+                                <p id="question-text" class="text-lg font-semibold text-purple-700 question-slide"></p>
+                                <p class="text-sm text-purple-400 mt-2">マッチした人に聞いてみよう！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Complete Screen -->
+                    <div id="complete-screen" class="min-h-full flex items-center justify-center p-4 hidden">
+                        <div class="glass-card rounded-3xl shadow-2xl p-8 max-w-md w-full text-center">
+                            <div class="text-6xl mb-4">🎉</div>
+                            <h2 class="text-3xl font-extrabold text-purple-700 mb-2">クリア！</h2>
+                            <div class="space-y-2 mb-6">
+                                <p class="text-lg text-purple-600">手数: <span id="final-moves" class="font-bold">0</span>
+                                </p>
+                            </div>
+                            <div class="bg-purple-50 rounded-xl p-4 mb-6">
+                                <p class="text-sm text-purple-500 mb-2">最後の質問:</p>
+                                <p id="final-question" class="text-purple-700 font-semibold"></p>
+                            </div>
+                            <button id="play-again-btn"
+                                class="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold py-4 px-8 rounded-xl text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">🔄
+                                もう一度プレイ</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game Logic -->
+                <script>
+                    const defaultConfig = { game_title: 'チームコネクト', team_name: '' };
+                    const emojiSets = {
+                        office: ['💼', '📊', '💡', '🎯', '📱', '💻', '📝', '🗂️'],
+                        food: ['🍕', '🍔', '🍣', '🍜', '🍰', '☕', '🍎', '🥗'],
+                        nature: ['🌸', '🌻', '🍀', '🌈', '⭐', '🌙', '🔥', '💧'],
+                        sports: ['⚽', '🏀', '🎾', '🏃', '🚴', '🏊', '⛳', '🎿'],
+                        animals: ['🐱', '🐶', '🐼', '🦊', '🐰', '🦁', '🐸', '🦋']
+                    };
+                    const questionSets = {
+                        professional: ['あなたが誇りに思っている仕事のスキルは何ですか？', '最近学んだ新しいことは何ですか？', '今年の仕事の目標は何ですか？', '仕事で一番やりがいを感じる瞬間は？', 'リーダーとして大切にしていることは？', 'キャリアで影響を受けた人は誰ですか？'],
+                        personal: ['あなたの朝を最もよく表す絵文字はどれですか？', '週末の理想的な過ごし方は？', '最近ハマっている趣味は何ですか？', '人生で一番行きたい場所は？', '好きな映画や本を教えてください'],
+                        team: ['チームで一番感謝している人は誰ですか？', 'チームの雰囲気を良くするアイデアは？', 'チームメンバーに聞いてみたいことは？', '一緒にランチに行きたいメンバーは？', 'チームの強みは何だと思いますか？']
+                    };
+
+                    let gameState = { cards: [], flippedCards: [], matchedPairs: 0, moves: 0, totalPairs: 6, questions: [], currentQuestionIndex: 0, isLocked: false };
+
+                    function shuffleArray(array) {
+                        const shuffled = [...array];
+                        for (let i = shuffled.length - 1; i > 0; i--) {
+                            const j = Math.floor(Math.random() * (i + 1));
+                            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                        }
+                        return shuffled;
+                    }
+
+                    function getQuestions(theme) {
+                        if (theme === 'mixed') {
+                            const all = [...questionSets.professional, ...questionSets.personal, ...questionSets.team];
+                            return shuffleArray(all).slice(0, 10);
+                        }
+                        return shuffleArray([...questionSets[theme]]);
+                    }
+
+                    function initGame() {
+                        const difficulty = document.getElementById('difficulty').value;
+                        const category = document.getElementById('emoji-category').value;
+                        const theme = document.getElementById('question-theme').value;
+
+                        let pairCount, gridCols;
+                        switch (difficulty) {
+                            case 'easy': pairCount = 3; gridCols = 3; break;
+                            case 'hard': pairCount = 8; gridCols = 4; break;
+                            default: pairCount = 6; gridCols = 4;
+                        }
+
+                        const emojis = shuffleArray([...emojiSets[category]]).slice(0, pairCount);
+                        const cardEmojis = shuffleArray([...emojis, ...emojis]);
+
+                        gameState = {
+                            cards: cardEmojis.map((emoji, index) => ({ id: index, emoji, isFlipped: false, isMatched: false })),
+                            flippedCards: [],
+                            matchedPairs: 0,
+                            moves: 0,
+                            totalPairs: pairCount,
+                            questions: getQuestions(theme),
+                            currentQuestionIndex: 0,
+                            isLocked: false
+                        };
+
+                        document.getElementById('start-screen').classList.add('hidden');
+                        document.getElementById('game-screen').classList.remove('hidden');
+                        document.getElementById('complete-screen').classList.add('hidden');
+
+                        const grid = document.getElementById('card-grid');
+                        grid.className = `grid gap-3 mb-4 grid-cols-${gridCols}`;
+                        document.getElementById('moves-count').textContent = '0';
+                        document.getElementById('matches-count').textContent = '0';
+                        document.getElementById('question-area').classList.add('hidden');
+
+                        renderCards();
+                    }
+
+                    function renderCards() {
+                        const grid = document.getElementById('card-grid');
+                        grid.innerHTML = '';
+                        gameState.cards.forEach((card, index) => {
+                            const cardEl = document.createElement('div');
+                            cardEl.className = `card-container aspect-square cursor-pointer ${card.isFlipped || card.isMatched ? 'card-flipped' : ''} ${card.isMatched ? 'card-matched' : ''}`;
+                            cardEl.innerHTML = `
+                                <div class="card-inner w-full h-full relative">
+                                    <div class="card-front absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg">
+                                        <span class="text-4xl text-white/30">?</span>
+                                    </div>
+                                    <div class="card-back absolute inset-0 bg-white rounded-xl flex items-center justify-center shadow-lg border-2 ${card.isMatched ? 'border-green-400 bg-green-50' : 'border-purple-200'}">
+                                        <span class="text-4xl md:text-5xl">${card.emoji}</span>
+                                    </div>
+                                </div>
+                            `;
+                            if (!card.isMatched) {
+                                cardEl.addEventListener('click', () => flipCard(index));
+                            }
+                            grid.appendChild(cardEl);
+                        });
+                    }
+
+                    function flipCard(index) {
+                        if (gameState.isLocked) return;
+                        const card = gameState.cards[index];
+                        if (card.isFlipped || card.isMatched) return;
+
+                        card.isFlipped = true;
+                        gameState.flippedCards.push(index);
+                        renderCards();
+
+                        if (gameState.flippedCards.length === 2) {
+                            gameState.moves++;
+                            document.getElementById('moves-count').textContent = gameState.moves;
+                            checkMatch();
+                        }
+                    }
+
+                    function checkMatch() {
+                        gameState.isLocked = true;
+                        const [first, second] = gameState.flippedCards;
+                        const card1 = gameState.cards[first];
+                        const card2 = gameState.cards[second];
+
+                        if (card1.emoji === card2.emoji) {
+                            card1.isMatched = true;
+                            card2.isMatched = true;
+                            gameState.matchedPairs++;
+                            document.getElementById('matches-count').textContent = gameState.matchedPairs;
+                            showQuestion();
+                            setTimeout(() => {
+                                renderCards();
+                                gameState.flippedCards = [];
+                                gameState.isLocked = false;
+                                if (gameState.matchedPairs === gameState.totalPairs) endGame();
+                            }, 500);
+                        } else {
+                            setTimeout(() => {
+                                card1.isFlipped = false;
+                                card2.isFlipped = false;
+                                renderCards();
+                                gameState.flippedCards = [];
+                                gameState.isLocked = false;
+                            }, 1000);
+                        }
+                    }
+
+                    function showQuestion() {
+                        const questionArea = document.getElementById('question-area');
+                        const questionText = document.getElementById('question-text');
+                        const question = gameState.questions[gameState.currentQuestionIndex % gameState.questions.length];
+                        questionText.textContent = question;
+                        questionArea.classList.remove('hidden');
+                        questionText.classList.remove('question-slide');
+                        void questionText.offsetWidth;
+                        questionText.classList.add('question-slide');
+                        gameState.currentQuestionIndex++;
+                    }
+
+                    function endGame() {
+                        createConfetti();
+                        setTimeout(() => {
+                            document.getElementById('game-screen').classList.add('hidden');
+                            document.getElementById('complete-screen').classList.remove('hidden');
+                            document.getElementById('final-moves').textContent = gameState.moves;
+                            const lastQuestion = gameState.questions[(gameState.currentQuestionIndex - 1) % gameState.questions.length];
+                            document.getElementById('final-question').textContent = lastQuestion;
+                        }, 1500);
+                    }
+
+                    function createConfetti() {
+                        const colors = ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe'];
+                        for (let i = 0; i < 50; i++) {
+                            const confetti = document.createElement('div');
+                            confetti.className = 'confetti';
+                            confetti.style.left = Math.random() * 100 + '%';
+                            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                            confetti.style.width = Math.random() * 10 + 5 + 'px';
+                            confetti.style.height = confetti.style.width;
+                            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                            confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                            document.body.appendChild(confetti);
+                            setTimeout(() => confetti.remove(), 3000);
+                        }
+                    }
+
+                    function resetToStart() {
+                        document.getElementById('game-screen').classList.add('hidden');
+                        document.getElementById('complete-screen').classList.add('hidden');
+                        document.getElementById('start-screen').classList.remove('hidden');
+                    }
+
+                    document.getElementById('start-btn').addEventListener('click', initGame);
+                    document.getElementById('restart-btn').addEventListener('click', resetToStart);
+                    document.getElementById('play-again-btn').addEventListener('click', resetToStart);
+                </script>
+            </div>
+        </section>
+
         <section class="support section" id="support">
             <div class="container center">
                 <h2 class="section-title">Support</h2>

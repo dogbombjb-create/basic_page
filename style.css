@@ -355,6 +355,73 @@ a {
     margin-top: 40px;
 }
 
+/* Day Schedule Styles in Curriculum */
+.day-highlight {
+    border-left: 4px solid var(--primary-color);
+    background: linear-gradient(to right, rgba(30, 188, 182, 0.05), #fff);
+}
+
+.day-highlight.day2-highlight {
+    border-left-color: var(--gold);
+    background: linear-gradient(to right, rgba(197, 160, 89, 0.08), #fff);
+}
+
+.day-schedule {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--primary-color), #17a3a1);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 15px;
+}
+
+.day-schedule i {
+    font-size: 0.9rem;
+}
+
+.day-schedule.day2-schedule {
+    background: linear-gradient(135deg, var(--gold), #a88b42);
+}
+
+/* Improve spacing for day items with schedule */
+.day-highlight .day-content strong {
+    margin-top: 5px;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+}
+
+.day-highlight .day-content p {
+    margin-top: 8px;
+    line-height: 1.8;
+}
+
+@media (max-width: 768px) {
+    .day-schedule {
+        font-size: 0.8rem;
+        padding: 5px 12px;
+        margin-bottom: 12px;
+    }
+
+    .day-highlight .day-content {
+        padding-top: 5px;
+    }
+
+    .day-highlight .day-content strong {
+        font-size: 1rem;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .day-highlight .day-content p {
+        font-size: 0.9rem;
+        line-height: 1.7;
+    }
+}
+
 
 /* Updated Layouts */
 .row.align-center {
@@ -419,6 +486,118 @@ a {
     padding: 20px;
     border-radius: 8px;
     color: #5d4037;
+}
+
+/* Schedule Section Styles */
+.schedule-section {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid #eee;
+}
+
+.schedule-heading {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    color: var(--primary-color);
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.schedule-heading i {
+    color: var(--gold);
+}
+
+.schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.schedule-card {
+    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.schedule-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.schedule-card-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #17a3a1 100%);
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.schedule-card.day2 .schedule-card-header {
+    background: linear-gradient(135deg, var(--gold) 0%, #a88b42 100%);
+}
+
+.day-badge {
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 6px 14px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+}
+
+.schedule-card.day2 .day-badge {
+    color: var(--gold);
+}
+
+.phase-label {
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+.schedule-card-body {
+    padding: 25px;
+}
+
+.date-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px dashed #eee;
+    font-size: 1.1rem;
+}
+
+.date-item:last-child {
+    border-bottom: none;
+}
+
+.date-item i {
+    color: var(--primary-color);
+    font-size: 1rem;
+}
+
+.schedule-card.day2 .date-item i {
+    color: var(--gold);
+}
+
+.date-item strong {
+    color: var(--text-color);
+}
+
+.schedule-note {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #888;
+    margin-top: 15px;
 }
 
 @media (min-width: 769px) {
@@ -500,3 +679,4 @@ a {
         display: inline-block;
         /* Helps with Z-index sometimes */
     }
+}
